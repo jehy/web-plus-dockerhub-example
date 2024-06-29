@@ -2,18 +2,18 @@
 # так в продакшн-контейнере не окажется лишних зависимостей и TS-исходников
 
 # Задаем базовый образ для этапа сборки
-FROM node:16-alpine as build
+FROM node:20-alpine as build
 # Задаем рабочую директорию
 WORKDIR /usr/src/app
 # Копируем список зависимостей и лок-файл отдельно от файлов проекта
 # напомним, это нужно для кэширования установки зависимостей
 COPY package*.json ./
-# Устанавливаем зависимости 
+# Устанавливаем зависимости
 RUN npm i
 COPY . .
 RUN npm run build
 
-FROM node:16-alpine As production
+FROM node:20-alpine As production
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY package*.json ./
